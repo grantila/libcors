@@ -1,6 +1,6 @@
 {
   "name": "libcors",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "CORS handling, 100% transportation agnostic",
   "author": "Gustaf Räntilä",
   "license": "MIT",
