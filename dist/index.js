@@ -170,7 +170,8 @@ function cors(options, method, headers) {
             // And out.
             return endPreflight();
         }
-        else {
+        else // Not OPTIONS
+         {
             if (supportsCredentials === true) {
                 // If the resource supports credentials add a single
                 // Access-Control-Allow-Origin header, with the value of the

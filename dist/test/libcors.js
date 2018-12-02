@@ -15,12 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("mocha");
 const chai_1 = require("chai");
 const sinon_1 = require("sinon");
-const _1 = require("../");
+const __1 = require("../");
 describe('libcors', () => {
     const method = 'GET';
     it('should not add any headers if the "Origin" header is not present ' +
         'in the request', () => __awaiter(this, void 0, void 0, function* () {
-        const requestListener = _1.setup();
+        const requestListener = __1.setup();
         const res = yield requestListener(method, {});
         chai_1.expect(Object.keys(res.headers).length).to.equal(0);
     }));
@@ -30,13 +30,13 @@ describe('libcors', () => {
         const headers = { "origin": "fake.com" };
         {
             // Test with array.
-            const requestListener = _1.setup({ origins });
+            const requestListener = __1.setup({ origins });
             const res = yield requestListener(method, headers);
             chai_1.expect(Object.keys(res.headers).length).to.equal(0);
         }
         {
             // Test with function.
-            const requestListener = _1.setup({
+            const requestListener = __1.setup({
                 origins: originHeader => origins.indexOf(originHeader) !== -1
             });
             const res = yield requestListener(method, headers);
@@ -47,7 +47,7 @@ describe('libcors', () => {
         'both synchronously and asynchronously', () => __awaiter(this, void 0, void 0, function* () {
         const origins = ["example.com"];
         // Test with asynchronous function.
-        const requestListener = _1.setup({
+        const requestListener = __1.setup({
             origins: originHeader => new Promise((resolve, reject) => {
                 process.nextTick(() => resolve(origins.indexOf(originHeader) !== -1));
             })
@@ -62,7 +62,7 @@ describe('libcors', () => {
         }
         {
             // Test with synchronous function.
-            const requestListener = _1.setup({
+            const requestListener = __1.setup({
                 origins: originHeader => origins.indexOf(originHeader) !== -1
             });
             const res = yield requestListener(method, headers);
@@ -79,7 +79,7 @@ describe('libcors', () => {
         const headers = { "origin": "example.com" };
         {
             // Test undefined.
-            const requestListener = _1.setup({
+            const requestListener = __1.setup({
                 origins: originHeader => undefined
             });
             const res = yield requestListener(method, headers);
@@ -87,7 +87,7 @@ describe('libcors', () => {
         }
         {
             // Test null.
-            const requestListener = _1.setup({
+            const requestListener = __1.setup({
                 origins: originHeader => null
             });
             const res = yield requestListener(method, headers);
@@ -95,7 +95,7 @@ describe('libcors', () => {
         }
         {
             // Test number.
-            const requestListener = _1.setup({
+            const requestListener = __1.setup({
                 origins: originHeader => 4711
             });
             const res = yield requestListener(method, headers);
@@ -103,7 +103,7 @@ describe('libcors', () => {
         }
         {
             // Test string.
-            const requestListener = _1.setup({
+            const requestListener = __1.setup({
                 origins: originHeader => "test"
             });
             const res = yield requestListener(method, headers);
@@ -112,7 +112,7 @@ describe('libcors', () => {
     }));
     it('should expose errors encountered in the match origin callback', () => __awaiter(this, void 0, void 0, function* () {
         const thenner = sinon_1.spy();
-        const requestListener = _1.setup({
+        const requestListener = __1.setup({
             origins: originHeader => Promise.reject({
                 message: "Something went wrong!",
                 status: 500
@@ -125,7 +125,7 @@ describe('libcors', () => {
     }));
     it('should not add any headers if the given origin is not a ' +
         'case-sentitive match of one of the origins in the list of origins', () => __awaiter(this, void 0, void 0, function* () {
-        const requestListener = _1.setup({
+        const requestListener = __1.setup({
             origins: ["example.com"]
         });
         const headers = { "origin": "eXaMpLe.cOm" };
@@ -136,7 +136,7 @@ describe('libcors', () => {
         const method = 'GET';
         it('should add an Access-Control-Allow-Origin header of "*" for ' +
             'any given origin if the list of origins in unbound', () => __awaiter(this, void 0, void 0, function* () {
-            const requestListener = _1.setup();
+            const requestListener = __1.setup();
             const headers = { "origin": "example.org" };
             const res = yield requestListener(method, headers);
             chai_1.expect(res.headers["Access-Control-Allow-Origin"])
@@ -145,7 +145,7 @@ describe('libcors', () => {
         it('should add an Access-Control-Allow-Origin header of ' +
             '"example.com" if the given origin matches one of the origins' +
             ' in the list of origins', () => __awaiter(this, void 0, void 0, function* () {
-            const requestListener = _1.setup({
+            const requestListener = __1.setup({
                 origins: ["example.com"]
             });
             const headers = { "origin": "example.com" };
@@ -157,7 +157,7 @@ describe('libcors', () => {
             '"example.com" and an Access-Control-Allow-Credentials header ' +
             'of "true" if credentials are supported and the list of ' +
             'origins in unbound', () => __awaiter(this, void 0, void 0, function* () {
-            const requestListener = _1.setup({
+            const requestListener = __1.setup({
                 supportsCredentials: true
             });
             const headers = { "origin": "example.com" };
@@ -173,7 +173,7 @@ describe('libcors', () => {
             'matches one of the origins in the list of origins', () => __awaiter(this, void 0, void 0, function* () {
             const origins = ["example.com"];
             // Test with array.
-            const requestListener = _1.setup({
+            const requestListener = __1.setup({
                 origins: origins,
                 supportsCredentials: true,
             });
@@ -187,7 +187,7 @@ describe('libcors', () => {
             }
             {
                 // Test with function.
-                const requestListener = _1.setup({
+                const requestListener = __1.setup({
                     origins: origin => origins.indexOf(origin) !== -1,
                     supportsCredentials: true,
                 });
@@ -200,7 +200,7 @@ describe('libcors', () => {
         }));
         it('should not add an Access-Control-Allow-Headers header if ' +
             'there are no response headers to expose', () => __awaiter(this, void 0, void 0, function* () {
-            const requestListener = _1.setup();
+            const requestListener = __1.setup();
             const headers = { "origin": "example.com" };
             const res = yield requestListener(method, headers);
             chai_1.expect(res.headers["Access-Control-Allow-Headers"])
@@ -209,8 +209,8 @@ describe('libcors', () => {
         it('should add an Access-Control-Expose-Headers header with all ' +
             'the exposed response headers if there are response headers ' +
             'to expose', () => __awaiter(this, void 0, void 0, function* () {
-            const requestListener = _1.setup({
-                responseHeaders: _1.simpleResponseHeaders.concat(["X-Corser"])
+            const requestListener = __1.setup({
+                responseHeaders: __1.simpleResponseHeaders.concat(["X-Corser"])
             });
             const headers = { "origin": "example.com" };
             const res = yield requestListener(method, headers);
@@ -222,7 +222,7 @@ describe('libcors', () => {
         const method = 'OPTIONS';
         it('should not add any headers if an Access-Control-Request-Method' +
             ' header is not present in the request', () => __awaiter(this, void 0, void 0, function* () {
-            const requestListener = _1.setup({
+            const requestListener = __1.setup({
                 endPreflightRequests: false
             });
             const headers = { "origin": "example.com" };
@@ -232,7 +232,7 @@ describe('libcors', () => {
         it('should not add any headers if the ' +
             'Access-Control-Request-Method header contains a non-simple ' +
             'method', () => __awaiter(this, void 0, void 0, function* () {
-            const requestListener = _1.setup({
+            const requestListener = __1.setup({
                 endPreflightRequests: false
             });
             const headers = {
@@ -245,7 +245,7 @@ describe('libcors', () => {
         it('should not add any headers if the ' +
             'Access-Control-Request-Headers header contains a non-simple ' +
             'request header', () => __awaiter(this, void 0, void 0, function* () {
-            const requestListener = _1.setup({
+            const requestListener = __1.setup({
                 endPreflightRequests: false
             });
             const headers = {
@@ -258,7 +258,7 @@ describe('libcors', () => {
         }));
         it('should add an Access-Control-Allow-Origin header of "*" for ' +
             'any given origin if the list of origins in unbound', () => __awaiter(this, void 0, void 0, function* () {
-            const requestListener = _1.setup({
+            const requestListener = __1.setup({
                 endPreflightRequests: false
             });
             const headers = {
@@ -272,7 +272,7 @@ describe('libcors', () => {
         it('should add an Access-Control-Allow-Origin header of ' +
             '"example.com" if the given origin matches one of the origins ' +
             'in the list of origins', () => __awaiter(this, void 0, void 0, function* () {
-            const requestListener = _1.setup({
+            const requestListener = __1.setup({
                 origins: ["example.com"],
                 endPreflightRequests: false,
             });
@@ -288,7 +288,7 @@ describe('libcors', () => {
             '"example.com" and an Access-Control-Allow-Credentials header ' +
             'of "true" if credentials are supported and the list of ' +
             'origins in unbound', () => __awaiter(this, void 0, void 0, function* () {
-            const requestListener = _1.setup({
+            const requestListener = __1.setup({
                 supportsCredentials: true,
                 endPreflightRequests: false
             });
@@ -306,7 +306,7 @@ describe('libcors', () => {
             '"example.com" and an Access-Control-Allow-Credentials header ' +
             'of "true" if credentials are supported and the given origin ' +
             'matches one of the origins in the list of origins', () => __awaiter(this, void 0, void 0, function* () {
-            const requestListener = _1.setup({
+            const requestListener = __1.setup({
                 origins: ["example.com"],
                 supportsCredentials: true,
                 endPreflightRequests: false
@@ -323,7 +323,7 @@ describe('libcors', () => {
         }));
         it('should add an Access-Control-Allow-Origin header even though ' +
             'Origin was not added to the list of request headers', () => __awaiter(this, void 0, void 0, function* () {
-            const requestListener = _1.setup({
+            const requestListener = __1.setup({
                 endPreflightRequests: false,
             });
             const headers = {
@@ -337,7 +337,7 @@ describe('libcors', () => {
         }));
         it('should add an Access-Control-Max-Age header of "50" if maxAge ' +
             'is set', () => __awaiter(this, void 0, void 0, function* () {
-            const requestListener = _1.setup({
+            const requestListener = __1.setup({
                 maxAge: 50,
                 endPreflightRequests: false,
             });
@@ -351,7 +351,7 @@ describe('libcors', () => {
         }));
         it('should add an Access-Control-Allow-Methods header with all ' +
             'methods that are in the list of methods', () => __awaiter(this, void 0, void 0, function* () {
-            const requestListener = _1.setup({
+            const requestListener = __1.setup({
                 endPreflightRequests: false,
             });
             const headers = {
@@ -360,11 +360,11 @@ describe('libcors', () => {
             };
             const res = yield requestListener(method, headers);
             chai_1.expect(res.headers["Access-Control-Allow-Methods"])
-                .to.equal(_1.simpleMethods.join(","));
+                .to.equal(__1.simpleMethods.join(","));
         }));
         it('should add an Access-Control-Allow-Headers header with all ' +
             'request headers that are in the list of request headers', () => __awaiter(this, void 0, void 0, function* () {
-            const requestListener = _1.setup({
+            const requestListener = __1.setup({
                 endPreflightRequests: false,
             });
             const headers = {
@@ -373,14 +373,14 @@ describe('libcors', () => {
             };
             const res = yield requestListener(method, headers);
             chai_1.expect(res.headers["Access-Control-Allow-Headers"])
-                .to.equal(_1.simpleRequestHeaders.join(","));
+                .to.equal(__1.simpleRequestHeaders.join(","));
         }));
         it('should add an Access-Control-Allow-Headers header that ' +
             'includes x-corser even though the name of the header in the ' +
             'Access-Control-Request-Headers header is not a case-sensitive ' +
             'match', () => __awaiter(this, void 0, void 0, function* () {
-            const requestHeaders = _1.simpleRequestHeaders.concat(["x-corser"]);
-            const requestListener = _1.setup({
+            const requestHeaders = __1.simpleRequestHeaders.concat(["x-corser"]);
+            const requestListener = __1.setup({
                 requestHeaders: requestHeaders,
                 endPreflightRequests: false
             });
@@ -394,7 +394,7 @@ describe('libcors', () => {
                 .to.eql(requestHeaders.join(","));
         }));
         it('should end preflight requests by default', () => __awaiter(this, void 0, void 0, function* () {
-            const requestListener = _1.setup();
+            const requestListener = __1.setup();
             const headers = {
                 "origin": "example.org",
                 "access-control-request-method": "GET",
