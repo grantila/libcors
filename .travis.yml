@@ -1,10 +1,20 @@
+language: node_js
+cache:
+  directories:
+    - ~/.npm
+notifications:
+  email: false
+node_js:
+  - '11'
+  - '10'
+  - '8'
+  - '6'
 before_script:
   - npm run build
-language: node_js
-node_js:
-  - "6"
-  - "7"
-  - "8"
-  - "9"
 after_script:
 - "node_modules/.bin/nyc report --reporter=text-lcov | node_modules/.bin/coveralls"
+after_success:
+  - npm run travis-deploy-once "npm run semantic-release"
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/

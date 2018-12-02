@@ -1,6 +1,6 @@
 {
   "name": "libcors",
-  "version": "1.0.0",
+  "version": "0.0.0-development",
   "description": "CORS handling, 100% transportation agnostic",
   "author": "Gustaf Räntilä",
   "license": "MIT",
@@ -14,11 +14,14 @@
     "build": "./node_modules/.bin/rimraf dist && ./node_modules/.bin/tsc -p .",
     "mocha": "./node_modules/.bin/mocha dist/test",
     "test": "./node_modules/.bin/nyc npm run mocha",
-    "coverage": "node_modules/.bin/nyc report --reporter=html"
+    "coverage": "node_modules/.bin/nyc report --reporter=html",
+    "travis-deploy-once": "travis-deploy-once",
+    "semantic-release": "semantic-release",
+    "cz": "git-cz"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/grantila/libcors.git"
+    "url": "https://github.com/grantila/libcors"
   },
   "keywords": [
     "libcors",
@@ -31,10 +34,18 @@
     "@types/node": "9.x",
     "chai": "4.x",
     "coveralls": "2.x",
+    "cz-conventional-changelog": "^2.1.0",
     "mocha": "5.x",
     "nyc": "11.x",
     "rimraf": "2.x",
+    "semantic-release": "^15.12.3",
     "sinon": "4.x",
+    "travis-deploy-once": "^5.0.9",
     "typescript": "2.6.x"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
