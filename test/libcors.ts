@@ -6,6 +6,7 @@
 import 'mocha'
 import { expect } from 'chai'
 import { spy } from 'sinon'
+import { reflect } from 'already'
 
 import {
 	setup,
@@ -13,6 +14,7 @@ import {
 	simpleMethods,
 	simpleRequestHeaders
 } from '../'
+
 
 describe( 'libcors', ( ) =>
 {
@@ -25,6 +27,22 @@ describe( 'libcors', ( ) =>
 		const requestListener = setup( );
 		const res = await requestListener( method, { } );
 		expect( Object.keys( res.headers ).length ).to.equal( 0 );
+	} );
+
+	it(
+		'should handle throwing origins callback', async ( ) =>
+	{
+		const origins = [ "example.com" ];
+		const headers = { "origin": "fake.com" };
+		{
+			const err = new Error( "foo" );
+			// Test with function.
+			const requestListener = setup( {
+				origins: originHeader => { throw err; }
+			} );
+			const res = await reflect( requestListener( method, headers ) );
+			expect( res.error ).to.equal( err );
+		}
 	} );
 
 	it(

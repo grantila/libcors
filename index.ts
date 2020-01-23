@@ -77,23 +77,23 @@ enum MatchingOrigin
 	Any,
 }
 
-function checkOriginMatch( originHeader: string, origins: Origins )
+async function checkOriginMatch( originHeader: string, origins: Origins )
 : Promise< MatchingOrigin >
 {
 	if ( typeof origins === "function" )
-		return Promise.resolve( origins( originHeader ) )
-		.then( ok => ok === true ? MatchingOrigin.Yes : MatchingOrigin.No );
+		return ( await origins( originHeader ) ) === true
+			? MatchingOrigin.Yes
+			: MatchingOrigin.No;
 
 	else if ( origins.length > 0 )
-		return Promise.resolve(
-			origins.some( origin => origin === originHeader )
-		)
-		.then( ok => ok ? MatchingOrigin.Yes : MatchingOrigin.No );
+		return origins.some( origin => origin === originHeader )
+			? MatchingOrigin.Yes
+			: MatchingOrigin.No;
 
 	else
 		// Always matching is acceptable since the list of origins can be
 		// unbounded.
-		return Promise.resolve( MatchingOrigin.Any );
+		return MatchingOrigin.Any;
 };
 
 function filterOptions( opts: Partial< CorsOptions > = { } )

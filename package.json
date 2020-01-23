@@ -37,6 +37,7 @@
   "devDependencies": {
     "@types/mocha": "5.2.7",
     "@types/node": "13.5.0",
+    "already": "^1.10.0",
     "chai": "4.x",
     "commitizen": "4.0.3",
     "coveralls": "3.0.9",
