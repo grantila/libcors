@@ -4,6 +4,7 @@
 [![build status][travis-image]][travis-url]
 [![coverage status][coverage-image]][coverage-url]
 [![Language grade: JavaScript][lgtm-image]][lgtm-url]
+[![Bundle size][bundlephobia-image]][bundlephobia-url]
 
 
 CORS handling, 100% transportation agnostic. Is bundled with TypeScript type information.
@@ -89,3 +90,5 @@ The package is 100% transport/framework agnostic, so to use it as a middleware i
 [coverage-url]: https://coveralls.io/github/grantila/libcors?branch=master
 [lgtm-image]: https://img.shields.io/lgtm/grade/javascript/g/grantila/libcors.svg?logo=lgtm&logoWidth=18
 [lgtm-url]: https://lgtm.com/projects/g/grantila/libcors/context:javascript
+[bundlephobia-image]: https://img.shields.io/bundlephobia/min/libcors
+[bundlephobia-url]: https://bundlephobia.com/result?p=libcors
