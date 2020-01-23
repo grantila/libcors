@@ -11,6 +11,9 @@
   "files": [
     "dist"
   ],
+  "engines": {
+    "node": ">=8"
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -18,7 +21,6 @@
     "mocha": "./node_modules/.bin/mocha dist/test",
     "test": "./node_modules/.bin/nyc npm run mocha",
     "coverage": "node_modules/.bin/nyc report --reporter=html",
-    "travis-deploy-once": "travis-deploy-once",
     "semantic-release": "semantic-release",
     "cz": "git-cz"
   },
