@@ -81,6 +81,8 @@ If `status` is defined, this means the response should be sent immediately (with
 
 The package is 100% transport/framework agnostic, so to use it as a middleware in a framework, a wrapping package should be used instead where this provides the pure logic.
 
+For Express, use [express-libcors](https://www.npmjs.com/package/express-libcors).
+
 
 [npm-image]: https://img.shields.io/npm/v/libcors.svg
 [npm-url]: https://npmjs.org/package/libcors
