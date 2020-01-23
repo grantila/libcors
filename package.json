@@ -40,12 +40,11 @@
     "already": "^1.10.0",
     "chai": "4.x",
     "commitizen": "4.0.3",
-    "coveralls": "3.0.9",
     "cz-conventional-changelog": "3.0.2",
     "mocha": "7.0.0",
     "nyc": "15.0.0",
     "rimraf": "3.0.0",
-    "semantic-release": "16.0.3",
+    "semantic-release": "^16.0.3",
     "sinon": "8.1.1",
     "typescript": "3.7.5"
   },
