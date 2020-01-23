@@ -35,19 +35,18 @@
     "origin"
   ],
   "devDependencies": {
-    "@types/mocha": "5.x",
-    "@types/node": "10.x",
+    "@types/mocha": "5.2.7",
+    "@types/node": "13.5.0",
     "chai": "4.x",
-    "commitizen": "3.x",
-    "coveralls": "3.x",
-    "cz-conventional-changelog": "2.x",
-    "mocha": "5.x",
-    "nyc": "13.x",
-    "rimraf": "2.x",
-    "semantic-release": "15.x",
-    "sinon": "7.x",
-    "travis-deploy-once": "5.x",
-    "typescript": "3.x"
+    "commitizen": "4.0.3",
+    "coveralls": "3.0.9",
+    "cz-conventional-changelog": "3.0.2",
+    "mocha": "7.0.0",
+    "nyc": "15.0.0",
+    "rimraf": "3.0.0",
+    "semantic-release": "16.0.3",
+    "sinon": "8.1.1",
+    "typescript": "3.7.5"
   },
   "config": {
     "commitizen": {
