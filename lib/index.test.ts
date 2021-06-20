@@ -3,9 +3,6 @@
  * been rewritten to typescript and to use libcors instead.
  */
 
-import 'mocha'
-import { expect } from 'chai'
-import { spy } from 'sinon'
 import { reflect } from 'already'
 
 import {
@@ -13,7 +10,7 @@ import {
 	simpleResponseHeaders,
 	simpleMethods,
 	simpleRequestHeaders
-} from '../'
+} from '.'
 
 
 describe( 'libcors', ( ) =>
@@ -26,7 +23,7 @@ describe( 'libcors', ( ) =>
 	{
 		const requestListener = setup( );
 		const res = await requestListener( method, { } );
-		expect( Object.keys( res.headers ).length ).to.equal( 0 );
+		expect( Object.keys( res.headers ).length ).toBe( 0 );
 	} );
 
 	it(
@@ -41,7 +38,7 @@ describe( 'libcors', ( ) =>
 				origins: originHeader => { throw err; }
 			} );
 			const res = await reflect( requestListener( method, headers ) );
-			expect( res.error ).to.equal( err );
+			expect( res.error ).toBe( err );
 		}
 	} );
 
@@ -55,7 +52,7 @@ describe( 'libcors', ( ) =>
 			// Test with array.
 			const requestListener = setup( { origins } );
 			const res = await requestListener( method, headers );
-			expect( Object.keys( res.headers ).length ).to.equal( 0 );
+			expect( Object.keys( res.headers ).length ).toBe( 0 );
 		}
 		{
 			// Test with function.
@@ -64,7 +61,7 @@ describe( 'libcors', ( ) =>
 					origins.indexOf(originHeader) !== -1
 			} );
 			const res = await requestListener( method, headers );
-			expect( Object.keys( res.headers ).length ).to.equal( 0 );
+			expect( Object.keys( res.headers ).length ).toBe( 0 );
 		}
 	} );
 
@@ -85,12 +82,12 @@ describe( 'libcors', ( ) =>
 		} );
 		const headers = { "origin": "fake.com" };
 		const res = await requestListener( method, headers );
-		expect( Object.keys( res.headers ).length ).to.equal( 0 );
+		expect( Object.keys( res.headers ).length ).toBe( 0 );
 
 		{
 			headers[ "origin" ] = "example.com";
 			const res = await requestListener( method, headers );
-			expect( Object.keys( res.headers ).length ).to.equal( 1 );
+			expect( Object.keys( res.headers ).length ).toBe( 1 );
 		}
 		{
 			// Test with synchronous function.
@@ -100,12 +97,12 @@ describe( 'libcors', ( ) =>
 			} );
 
 			const res = await requestListener( method, headers );
-			expect( Object.keys( res.headers ).length ).to.equal( 1 );
+			expect( Object.keys( res.headers ).length ).toBe( 1 );
 		}
 		{
 			headers[ "origin" ] = "fake.com";
 			const res = await requestListener( method, headers );
-			expect( Object.keys( res.headers ).length ).to.equal( 0 );
+			expect( Object.keys( res.headers ).length ).toBe( 0 );
 		}
 	} );
 
@@ -121,7 +118,7 @@ describe( 'libcors', ( ) =>
 				origins: originHeader => undefined
 			} );
 			const res = await requestListener( method, headers );
-			expect( Object.keys( res.headers ).length ).to.equal( 0 );
+			expect( Object.keys( res.headers ).length ).toBe( 0 );
 		}
 		{
 			// Test null.
@@ -129,7 +126,7 @@ describe( 'libcors', ( ) =>
 				origins: originHeader => null
 			} );
 			const res = await requestListener( method, headers );
-			expect( Object.keys( res.headers ).length ).to.equal( 0 );
+			expect( Object.keys( res.headers ).length ).toBe( 0 );
 		}
 		{
 			// Test number.
@@ -137,7 +134,7 @@ describe( 'libcors', ( ) =>
 				origins: originHeader => < any >4711
 			} );
 			const res = await requestListener( method, headers );
-			expect( Object.keys( res.headers ).length ).to.equal( 0 );
+			expect( Object.keys( res.headers ).length ).toBe( 0 );
 		}
 		{
 			// Test string.
@@ -145,7 +142,7 @@ describe( 'libcors', ( ) =>
 				origins: originHeader => < any >"test"
 			} );
 			const res = await requestListener( method, headers );
-			expect( Object.keys( res.headers ).length ).to.equal( 0 );
+			expect( Object.keys( res.headers ).length ).toBe( 0 );
 		}
 	} );
 
@@ -153,7 +150,7 @@ describe( 'libcors', ( ) =>
 		'should expose errors encountered in the match origin callback',
 		async ( ) =>
 	{
-		const thenner = spy( );
+		const thenner = jest.fn( );
 
 		const requestListener = setup( {
 			origins: originHeader =>
@@ -166,10 +163,10 @@ describe( 'libcors', ( ) =>
 		await requestListener( method, headers )
 		.then(
 			thenner,
-			err => expect( err ).to.not.equal( undefined )
+			err => expect( err ).not.toBe( undefined )
 		);
 
-		expect( thenner.callCount ).to.equal( 0 );
+		expect( thenner.mock.calls.length ).toBe( 0 );
 	} );
 
 	it(
@@ -182,7 +179,7 @@ describe( 'libcors', ( ) =>
 		} );
 		const headers = { "origin": "eXaMpLe.cOm" };
 		const res = await requestListener( method, headers );
-		expect( Object.keys( res.headers ).length ).to.equal( 0 );
+		expect( Object.keys( res.headers ).length ).toBe( 0 );
 	} );
 
 	describe( 'An actual request', ( ) =>
@@ -197,7 +194,7 @@ describe( 'libcors', ( ) =>
 			const headers = { "origin": "example.org" };
 			const res = await requestListener( method, headers );
 			expect( res.headers[ "Access-Control-Allow-Origin" ] )
-				.to.equal( "*" );
+				.toBe( "*" );
 		} );
 
 		it(
@@ -211,7 +208,7 @@ describe( 'libcors', ( ) =>
 			const headers = { "origin": "example.com" };
 			const res = await requestListener( method, headers );
 			expect( res.headers[ "Access-Control-Allow-Origin" ] )
-				.to.equal( "example.com" );
+				.toBe( "example.com" );
 		} );
 
 		it(
@@ -226,9 +223,9 @@ describe( 'libcors', ( ) =>
 			const headers = { "origin": "example.com" };
 			const res = await requestListener( method, headers );
 			expect( res.headers[ "Access-Control-Allow-Origin" ] )
-				.to.equal( "example.com" );
+				.toBe( "example.com" );
 			expect( res.headers[ "Access-Control-Allow-Credentials" ] )
-				.to.equal( "true" );
+				.toBe( "true" );
 		} );
 
 		it(
@@ -248,9 +245,9 @@ describe( 'libcors', ( ) =>
 				const res = await requestListener( method, headers );
 
 				expect( res.headers[ "Access-Control-Allow-Origin" ] )
-					.to.equal( "example.com" );
+					.toBe( "example.com" );
 				expect( res.headers[ "Access-Control-Allow-Credentials" ] )
-					.to.equal( "true" );
+					.toBe( "true" );
 			}
 			{
 				// Test with function.
@@ -260,9 +257,9 @@ describe( 'libcors', ( ) =>
 				} );
 				const res = await requestListener( method, headers );
 				expect( res.headers[ "Access-Control-Allow-Origin" ] )
-					.to.equal( "example.com" );
+					.toBe( "example.com" );
 				expect( res.headers[ "Access-Control-Allow-Credentials" ] )
-					.to.equal( "true" );
+					.toBe( "true" );
 			}
 		} );
 
@@ -274,7 +271,7 @@ describe( 'libcors', ( ) =>
 			const headers = { "origin": "example.com" };
 			const res = await requestListener( method, headers );
 			expect( res.headers[ "Access-Control-Allow-Headers" ] )
-				.to.equal( undefined );
+				.toBe( undefined );
 		} );
 
 		it(
@@ -288,7 +285,7 @@ describe( 'libcors', ( ) =>
 			const headers = { "origin": "example.com" };
 			const res = await requestListener( method, headers );
 			expect( res.headers[ "Access-Control-Expose-Headers" ] )
-				.to.equal( "x-corser" );
+				.toBe( "x-corser" );
 		} );
 	} );
 
@@ -305,7 +302,7 @@ describe( 'libcors', ( ) =>
 			} );
 			const headers = { "origin": "example.com" };
 			const res = await requestListener( method, headers );
-			expect( Object.keys( res.headers ).length ).to.equal( 0 );
+			expect( Object.keys( res.headers ).length ).toBe( 0 );
 		} );
 
 		it(
@@ -321,7 +318,7 @@ describe( 'libcors', ( ) =>
 				"access-control-request-method": "PUT",
 			};
 			const res = await requestListener( method, headers );
-			expect( Object.keys( res.headers ).length ).to.equal( 0 );
+			expect( Object.keys( res.headers ).length ).toBe( 0 );
 		} );
 
 		it(
@@ -338,7 +335,7 @@ describe( 'libcors', ( ) =>
 				"access-control-request-headers": "X-Corser",
 			};
 			const res = await requestListener( method, headers );
-			expect( Object.keys( res.headers ).length ).to.equal( 0 );
+			expect( Object.keys( res.headers ).length ).toBe( 0 );
 		} );
 
 		it(
@@ -354,7 +351,7 @@ describe( 'libcors', ( ) =>
 			};
 			const res = await requestListener( method, headers );
 			expect( res.headers[ "Access-Control-Allow-Origin" ] )
-				.to.equal( "*" );
+				.toBe( "*" );
 		} );
 
 		it(
@@ -372,7 +369,7 @@ describe( 'libcors', ( ) =>
 			};
 			const res = await requestListener( method, headers );
 			expect( res.headers[ "Access-Control-Allow-Origin" ] )
-				.to.equal( "example.com" );
+				.toBe( "example.com" );
 		} );
 
 		it(
@@ -391,9 +388,9 @@ describe( 'libcors', ( ) =>
 			};
 			const res = await requestListener( method, headers );
 			expect( res.headers[ "Access-Control-Allow-Origin" ] )
-				.to.equal( "example.com" );
+				.toBe( "example.com" );
 			expect( res.headers[ "Access-Control-Allow-Credentials" ] )
-				.to.equal( "true" );
+				.toBe( "true" );
 		} );
 
 		it(
@@ -413,9 +410,9 @@ describe( 'libcors', ( ) =>
 			};
 			const res = await requestListener( method, headers );
 			expect( res.headers[ "Access-Control-Allow-Origin" ] )
-				.to.equal( "example.com" );
+				.toBe( "example.com" );
 			expect( res.headers[ "Access-Control-Allow-Credentials" ] )
-				.to.equal( "true" );
+				.toBe( "true" );
 		} );
 
 		it(
@@ -432,7 +429,7 @@ describe( 'libcors', ( ) =>
 			};
 			const res = await requestListener( method, headers );
 			expect( res.headers[ "Access-Control-Allow-Origin" ] )
-				.not.to.equal( undefined );
+				.not.toBe( undefined );
 		} );
 
 		it(
@@ -449,7 +446,7 @@ describe( 'libcors', ( ) =>
 			};
 			const res = await requestListener( method, headers );
 			expect( res.headers[ "Access-Control-Max-Age" ] )
-				.to.equal( '50' );
+				.toBe( '50' );
 		} );
 
 		it(
@@ -465,7 +462,7 @@ describe( 'libcors', ( ) =>
 			};
 			const res = await requestListener( method, headers );
 			expect( res.headers[ "Access-Control-Allow-Methods" ] )
-				.to.equal( simpleMethods.join( "," ) );
+				.toBe( simpleMethods.join( "," ) );
 		} );
 
 		it(
@@ -482,7 +479,7 @@ describe( 'libcors', ( ) =>
 			};
 			const res = await requestListener( method, headers );
 			expect( res.headers[ "Access-Control-Allow-Headers" ] )
-				.to.equal( simpleRequestHeaders.join( "," ) );
+				.toBe( simpleRequestHeaders.join( "," ) );
 		} );
 
 		it(
@@ -504,7 +501,7 @@ describe( 'libcors', ( ) =>
 			};
 			const res = await requestListener( method, headers );
 			expect( res.headers[ "Access-Control-Allow-Headers" ] )
-				.to.eql( requestHeaders.join( "," ) );
+				.toBe( requestHeaders.join( "," ) );
 		} );
 
 		it(
@@ -516,7 +513,7 @@ describe( 'libcors', ( ) =>
 				"access-control-request-method": "GET",
 			};
 			const res = await requestListener( method, headers );
-			expect( res.status ).to.equal( 204 );
+			expect( res.status ).toBe( 204 );
 		} );
 	} );
 } );
